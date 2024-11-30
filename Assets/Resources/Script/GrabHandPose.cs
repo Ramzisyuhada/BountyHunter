@@ -8,7 +8,7 @@ public class GrabHandPose : MonoBehaviour
 {
 
     public HandData leftHandPose;
-
+    public GameObject LeftPhysic;
     private Vector3 startingHandPosition;
     private Vector3 finalHandPosition;
     private Quaternion startingHandRotation;
@@ -21,9 +21,8 @@ public class GrabHandPose : MonoBehaviour
     
     void Start()
     {
-
-
         XRGrabInteractable grabInteractable = GetComponent<XRGrabInteractable>();
+        
         grabInteractable.selectEntered.AddListener(SetupPose);
         grabInteractable.selectExited.AddListener(UnsetPoses);
         leftHandPose.gameObject.SetActive(false);
@@ -31,35 +30,32 @@ public class GrabHandPose : MonoBehaviour
 
     public void SetupPose(BaseInteractionEventArgs args)
     {
-        Debug.Log($"Interactor Object Type: {args.interactorObject.GetType()}"); // Debug log to check the type
+        //HandData pose = leftHandPose.GetComponent<HandPresentPhysic>().target.transform.GetComponentInChildren<HandData>();
 
         if (args.interactorObject is XRDirectInteractor rayInteractor)
         {
-            
-                
-                HandData   handData = leftHandPose.GetComponent<HandData>();
-                leftHandPose.GetComponent<HandData>().animator.enabled = false;
+                Debug.Log("Memegang");
+                HandData   handData = rayInteractor.transform.GetComponentInChildren<HandData>();
+               
 
-                SetHandDataValue(handData, leftHandPose);
-                SetHandData(handData, finalHandPosition, finalHandRotation, finalFingerRotation);
-          
+                LeftPhysic.transform.GetComponentInChildren<HandData>().animator.enabled = false;
+
+
+            SetHandDataValue(LeftPhysic.transform.GetComponentInChildren<HandData>(), leftHandPose);
+                SetHandData(LeftPhysic.transform.GetComponentInChildren<HandData>(), finalHandPosition, finalHandRotation, finalFingerRotation);
         }
     }
 
     public void UnsetPoses(BaseInteractionEventArgs args)
     {
-                Debug.Log($"Interactor Object Type: {args.interactorObject.GetType()}"); // Debug log to check the type
 
         if (args.interactorObject is XRDirectInteractor rayInteractor)
         {
-            HandData handData = rayInteractor.GetComponentInChildren<HandData>();
-            if (handData != null)
-            {
-                Debug.Log("UnsetPoses: HandData found, resetting pose."); // Debug log for reset
-                handData.animator.enabled = true;
-                SetHandData(handData, startingHandPosition, startingHandRotation, startingFingerRotation);
+            // LeftPhysic.SetActive(true);
 
-            }
+            LeftPhysic.transform.GetComponentInChildren<HandData>().animator.enabled = false;
+            SetHandData(LeftPhysic.transform.GetComponentInChildren<HandData>(), startingHandPosition, startingHandRotation, startingFingerRotation);
+
         }
     }
 

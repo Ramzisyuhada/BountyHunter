@@ -21,8 +21,17 @@ public class Weapon_V : MonoBehaviour
     [SerializeField] private GameObject LeftController;
     [SerializeField] private GameObject RightController;
     [SerializeField] private GameObject raycast;
+    [SerializeField] private GameObject Bullet;
+    [SerializeField] private GameObject PrefabBullet;
+
+    private AudioSource audio;
     private bool Memegang;
     private XRDirectInteractor interactor;
+    private GameObject ins;
+
+
+
+    
 
     void Start()
     {
@@ -33,11 +42,12 @@ public class Weapon_V : MonoBehaviour
     private void OnSelectEntered(SelectEnterEventArgs args)
     {
         Memegang = true;
-      
+        audio = args.interactableObject.transform.GetComponentInChildren<AudioSource>();
+        string name = args.interactableObject.transform.gameObject.name;
+       
     }
     RaycastHit hit;
 
-    // Update is called once per frame
     void Update()
     {
         Debug.DrawRay(raycast.transform.position, -raycast.transform.right * 10f, Color.red);
@@ -45,7 +55,8 @@ public class Weapon_V : MonoBehaviour
         {
             if (LeftTrigger.action.WasPressedThisFrame() || RightTrigger.action.WasPressedThisFrame())
             {
-
+                ins = Instantiate(PrefabBullet, Bullet.transform.position, Quaternion.identity);
+                audio.Play();
                 if (Physics.Raycast(raycast.transform.position, raycast.transform.forward, out hit))
                 {
                     Debug.Log("Ray hit object: " + hit.transform.gameObject.name);
@@ -57,4 +68,6 @@ public class Weapon_V : MonoBehaviour
             }
         }
     }
+
+  
 }
