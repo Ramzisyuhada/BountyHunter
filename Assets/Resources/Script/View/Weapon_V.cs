@@ -7,6 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Weapon_V : MonoBehaviour
 {
 
+  
     /// <summary>
     /// Trigger Button
     /// </summary>
@@ -23,6 +24,9 @@ public class Weapon_V : MonoBehaviour
     [SerializeField] private GameObject raycast;
     [SerializeField] private GameObject Bullet;
     [SerializeField] private GameObject PrefabBullet;
+    [SerializeField] private Weapon weapon;
+    [SerializeField] private GameObject particle;
+
    // [SerializeField] private GameObject effect;
     private AudioSource audio;
     private bool Memegang;
@@ -35,6 +39,8 @@ public class Weapon_V : MonoBehaviour
 
     void Start()
     {
+
+        weapon = new Weapon(weapon.ammo,weapon.damage,weapon.FireRate);
         interactor = LeftController.GetComponent<XRDirectInteractor>();
         interactor.selectEntered.AddListener(OnSelectEntered);
     }
@@ -55,17 +61,25 @@ public class Weapon_V : MonoBehaviour
         {
             if (LeftTrigger.action.WasPressedThisFrame() || RightTrigger.action.WasPressedThisFrame())
             {
-                ins = Instantiate(PrefabBullet, Bullet.transform.position, Quaternion.identity);
-                audio.Play();
-             //   GameObject pref = Instantiate(effect,raycast.transform.position, effect.transform.rotation);
-              //  Destroy(pref,0.1f);
-                if (Physics.Raycast(raycast.transform.position, raycast.transform.forward, out hit))
+
+                if (Time.time > weapon.FireRate)
                 {
-                    Debug.Log("Ray hit object: " + hit.transform.gameObject.name);
-                }
-                else
-                {
-                    Debug.Log("Ray did not hit anything.");
+                    ins = Instantiate(PrefabBullet, Bullet.transform.position, Quaternion.identity);
+                    audio.Play();
+                    weapon.FireRate = Time.time + 0.5f;
+                    if (Physics.Raycast(raycast.transform.position, raycast.transform.forward, out hit))
+                    {
+                        Enemy_V enemy = hit.transform.GetComponentInParent<Enemy_V>();
+                        if (hit.transform.gameObject.layer == 8) { 
+                            enemy.Die();
+                          //  GameObject darah = Instantiate(particle, hit.transform.gameObject.transform.position, Quaternion.identity);
+                            Debug.Log(enemy.enemy.Health);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Ray did not hit anything.");
+                    }
                 }
             }
         }
