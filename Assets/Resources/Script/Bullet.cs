@@ -8,9 +8,15 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        Destroy(gameObject, 5f); 
+
     }
     private void FixedUpdate()
     {
-        rb.AddForce(Vector3.right * 0.4f);
+        rb.AddForce(Vector3.right * 20f);
     }
+
+
+
+   
 }
