@@ -2,27 +2,121 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static SimpleFSM;
+using static UnityEngine.GraphicsBuffer;
 
-public class Enemy_V : MonoBehaviour
+public class Enemy_V : FSM
 {
     public Enemy enemy;
-  
+    private SimpleFSM fSM;
     private Rigidbody[] rb;
     private Collider[] colliders;
     private Enemy_MV model;
 
 
-    private void Start()
+    public enum FSMState
     {
-       
-
-        enemy = new Enemy(enemy.Health,enemy.Damage,enemy.Armor,enemy.IsBoss);
-        setColiderState(true);
-        setRigidbodyState(true);
-       // model = new Enemy_MV();
+        None,
+        Patrol,
+        Shoot,
+        Die
     }
 
 
+    public FSMState State;
+
+
+    protected override void Initialize()
+    {
+        
+        enemy = new Enemy(enemy.Health, enemy.Damage, enemy.Armor, enemy.IsBoss, enemy.Speed, enemy.rotationSpeed,enemy.FireRate);
+        fSM = new SimpleFSM();
+        setColiderState(true);
+        setRigidbodyState(true);
+
+        State = FSMState.Patrol;
+        PostList = GameObject.FindGameObjectsWithTag("WayPoint");
+        FindNextPoint();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        PlayerTransform = player.transform;
+    }
+
+    public void FSMPatrol()
+    {
+        if (Vector3.Distance(transform.position, DestPost) < 0.5f)
+        {
+
+            // Setiap Sampai Destination dia akan  keadan Shoot
+            Debug.Log("Menembak Player");
+            State = FSMState.Shoot;
+
+           // FindNextPoint();
+
+        }
+        Quaternion targetRoatation = Quaternion.LookRotation(DestPost - transform.position);
+        transform.rotation = Quaternion.Lerp (transform.rotation,targetRoatation ,Time.deltaTime * enemy.rotationSpeed);
+        transform.Translate(Vector3.forward * Time.deltaTime * 1F);
+
+    }
+
+
+    /// <summary>
+    /// Ketika Player sudah melihat ke player otomatis 
+    /// </summary>
+    void FSMShoot()
+    {
+        Vector3 target = PlayerTransform.position - transform.position;
+
+        Quaternion targetRotation = Quaternion.LookRotation(target);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * enemy.rotationSpeed);
+        Debug.Log(Vector3.Angle(transform.position, target.normalized));
+        if (Vector3.Angle(transform.position, target.normalized) <= 180) { 
+
+            if (Time.time > enemy.FireRate)
+            {
+                enemy.Shoot(transform.position, target);
+                enemy.FireRate = Time.time + 0.5f;
+
+                StartCoroutine(StartDestination());
+
+            }
+
+        }
+
+    }
+
+    IEnumerator StartDestination()
+    {
+
+        yield return new WaitForSeconds(2f);
+        State = FSMState.Patrol;
+
+        FindNextPoint();
+
+    }
+    protected void FindNextPoint()
+    {
+        
+        int randindex = Random.Range(0, PostList.Length);
+        Vector3 rndPosition = Vector3.zero;
+        DestPost = PostList[randindex].transform.position;
+    }
+
+    protected override void FSMUpdate()
+    {
+
+        switch (State)
+        {
+            case FSMState.Patrol : FSMPatrol();break;
+            case FSMState.Shoot : FSMShoot();break;
+        }
+
+    }
+    
+    protected override void FSMFixedUpdate()
+    {
+    }
+   
     public void Die()
     {
     //    GetComponent<Animator>().enabled = false;
@@ -34,7 +128,7 @@ public class Enemy_V : MonoBehaviour
     public void setRigidbodyState(bool state)
     {
         rb = GetComponentsInChildren<Rigidbody>();
-
+        Debug.Log(rb.Length);
         foreach (Rigidbody rb1 in rb)
         {
 

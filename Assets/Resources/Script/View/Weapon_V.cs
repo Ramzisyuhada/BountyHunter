@@ -43,6 +43,12 @@ public class Weapon_V : MonoBehaviour
         weapon = new Weapon(weapon.ammo,weapon.damage,weapon.FireRate);
         interactor = LeftController.GetComponent<XRDirectInteractor>();
         interactor.selectEntered.AddListener(OnSelectEntered);
+        interactor.selectExited.AddListener(OnExitEntered);
+    }
+
+    private void OnExitEntered(SelectExitEventArgs e)
+    {
+        Memegang = false;
     }
 
     private void OnSelectEntered(SelectEnterEventArgs args)
