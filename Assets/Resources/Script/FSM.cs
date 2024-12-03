@@ -22,4 +22,9 @@ public class FSM : MonoBehaviour
     {
         FSMUpdate();
     }
+
+    private void FixedUpdate()
+    {
+        FSMFixedUpdate();
+    }
 }
