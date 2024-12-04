@@ -50,14 +50,13 @@ public class Enemy
     public void Shoot(Vector3 positionEnemy,Vector3 target) {
         Debug.Log(Vector3.Angle(positionEnemy, target));
 
-        if (Vector3.Angle(positionEnemy, target.normalized) < 190)
-        {
+      
 
             if (Physics.Raycast(positionEnemy, target, out RaycastHit hit))
             {
-                Debug.Log(hit.point);
+                //Debug.Log(hit.point);
             }
-        }
+        
     }
 
 }

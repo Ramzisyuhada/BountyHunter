@@ -43,19 +43,24 @@ public class Enemy_V : FSM
 
     public void FSMPatrol()
     {
-        if (Vector3.Distance(transform.position, DestPost) < 0.5f)
+        
+
+        if (Vector3.Distance(transform.position, DestPost) < 0.1f )
         {
 
             // Setiap Sampai Destination dia akan  keadan Shoot
             Debug.Log("Menembak Player");
-            State = FSMState.Shoot;
+                            GetComponent<Animator>().SetTrigger("Shoot");
 
-           // FindNextPoint();
+            State = FSMState.Shoot;
+            return;
+
+           FindNextPoint();
 
         }
         Quaternion targetRoatation = Quaternion.LookRotation(DestPost - transform.position);
         transform.rotation = Quaternion.Lerp (transform.rotation,targetRoatation ,Time.deltaTime * enemy.rotationSpeed);
-        transform.Translate(Vector3.forward * Time.deltaTime * 1F);
+        transform.Translate(Vector3.forward * Time.deltaTime * enemy.Speed);
 
     }
 
@@ -69,13 +74,14 @@ public class Enemy_V : FSM
 
         Quaternion targetRotation = Quaternion.LookRotation(target);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * enemy.rotationSpeed);
-        Debug.Log(Vector3.Angle(transform.position, target.normalized));
         if (Vector3.Angle(transform.position, target.normalized) <= 180) { 
 
             if (Time.time > enemy.FireRate)
             {
+                
                 enemy.Shoot(transform.position, target);
-                enemy.FireRate = Time.time + 0.5f;
+
+                enemy.FireRate = Time.time + 1.5f;
 
                 StartCoroutine(StartDestination());
 
@@ -85,12 +91,19 @@ public class Enemy_V : FSM
 
     }
 
+    bool isWaiting = false;
     IEnumerator StartDestination()
     {
+        isWaiting = true;
 
-        yield return new WaitForSeconds(2f);
+
+        yield return new WaitForSeconds(7f);
+        Debug.Log("Hello world");
+
+        GetComponent<Animator>().SetTrigger("Walk");
+
+
         State = FSMState.Patrol;
-
         FindNextPoint();
 
     }
@@ -99,6 +112,7 @@ public class Enemy_V : FSM
         
         int randindex = Random.Range(0, PostList.Length);
         Vector3 rndPosition = Vector3.zero;
+        Debug.Log(PostList[randindex].gameObject.name);
         DestPost = PostList[randindex].transform.position;
     }
 
@@ -119,7 +133,7 @@ public class Enemy_V : FSM
    
     public void Die()
     {
-    //    GetComponent<Animator>().enabled = false;
+        GetComponent<Animator>().enabled = false;
         setRigidbodyState(false);
         setColiderState(true);
     }
