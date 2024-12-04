@@ -45,22 +45,26 @@ public class Enemy_V : FSM
     {
         
 
-        if (Vector3.Distance(transform.position, DestPost) < 0.1f )
+        if (Vector3.Distance(transform.position, DestPost) < 0.5f )
         {
 
             // Setiap Sampai Destination dia akan  keadan Shoot
+            
             Debug.Log("Menembak Player");
-                            GetComponent<Animator>().SetTrigger("Shoot");
+            GetComponent<Animator>().SetFloat("Walk", 0f);
+
+            isWaiting = false;
 
             State = FSMState.Shoot;
             return;
 
-           FindNextPoint();
 
         }
         Quaternion targetRoatation = Quaternion.LookRotation(DestPost - transform.position);
-        transform.rotation = Quaternion.Lerp (transform.rotation,targetRoatation ,Time.deltaTime * enemy.rotationSpeed);
-        transform.Translate(Vector3.forward * Time.deltaTime * enemy.Speed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRoatation, Time.deltaTime * enemy.rotationSpeed);
+        GetComponent<Animator>().SetFloat("Walk", enemy.Speed);
+
+        /*transform.Translate(Vector3.forward * Time.deltaTime * enemy.Speed);*/
 
     }
 
@@ -74,20 +78,30 @@ public class Enemy_V : FSM
 
         Quaternion targetRotation = Quaternion.LookRotation(target);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * enemy.rotationSpeed);
-        if (Vector3.Angle(transform.position, target.normalized) <= 180) { 
-
+        Debug.Log(Vector3.Angle(transform.forward, target));
+        if (Vector3.Angle(transform.forward, target) < 10)
+        {
             if (Time.time > enemy.FireRate)
             {
-                
+
                 enemy.Shoot(transform.position, target);
 
                 enemy.FireRate = Time.time + 1.5f;
+                if (!isWaiting)
+                {
+                    Debug.Log("Nembak");
 
+                    FindNextPoint();
+
+                }
                 StartCoroutine(StartDestination());
 
-            }
 
+            }
         }
+       
+
+        
 
     }
 
@@ -98,13 +112,11 @@ public class Enemy_V : FSM
 
 
         yield return new WaitForSeconds(7f);
-        Debug.Log("Hello world");
-
-        GetComponent<Animator>().SetTrigger("Walk");
-
 
         State = FSMState.Patrol;
-        FindNextPoint();
+
+
+
 
     }
     protected void FindNextPoint()
