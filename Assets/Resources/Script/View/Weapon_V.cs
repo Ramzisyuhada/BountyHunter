@@ -82,32 +82,53 @@ public class Weapon_V : MonoBehaviour
 
         if (weapon.LastShootTime + weapon.ShootDelay < Time.time)
         {
-            animator.SetBool("IsShooting", true);
             ShootingSystem.Play();
-            Vector3 dir = weapon.GetDirection(transform.forward,AddBulletSpread,BulletSpreadVariance);
+            Vector3 dir = weapon.GetDirection(raycast.transform.forward,AddBulletSpread,BulletSpreadVariance);
+
             if (Physics.Raycast(raycast.transform.position, dir, out RaycastHit hit, float.MaxValue, Mask))
             {
                 TrailRenderer trail = Instantiate(BulletTrail, raycast.transform.position, Quaternion.identity);
-                StartCoroutine(SpawnTrail(trail, hit));
-                LastShootTIme = Time.time;
+
+                StartCoroutine(SpawnTrail(trail, hit.point, hit.normal, true));
+
+                weapon.LastShootTime = Time.time;
             }
+            else
+            {
+                TrailRenderer trail = Instantiate(BulletTrail, raycast.transform.position, Quaternion.identity);
+
+                StartCoroutine(SpawnTrail(trail, raycast.transform.position + dir * 100f, Vector3.zero, false));
+
+                weapon.LastShootTime = Time.time;
+            }
+
+
         }
     }
 
-    private IEnumerator SpawnTrail(TrailRenderer Trail, RaycastHit hit)
+    private IEnumerator SpawnTrail(TrailRenderer Trail, Vector3 hit,Vector3 normal, bool MadeImpact)
     {
-        float time = 0;
         Vector3 startPosition = Trail.transform.position;
-        while (time < 1)
+        float distance = Vector3.Distance(Trail.transform.position, hit);
+        float remainingDistance = distance;
+        while (remainingDistance > 0)
         {
-            Trail.transform.position = Vector3.Lerp(startPosition, hit.point, time);
-            time = Time.deltaTime / Trail.time;
+          //  Trail.transform.position = Vector3.Lerp(startPosition, hit, time);
+
+            Trail.transform.position = Vector3.Lerp(startPosition, hit, 1 - (remainingDistance / distance));
+
+            remainingDistance -= 100f * Time.deltaTime;
             yield return null;  
         }
-        animator.SetBool("IsShooting",false);
-        Trail.transform.position = hit.point;
-        Instantiate(ImpactParticleSystem,hit.point,Quaternion.LookRotation(hit.normal));
-        Destroy(Trail.gameObject,Trail.time);
+        //  animator.SetBool("IsShooting",false);
+        Trail.transform.position = hit;
+        if (MadeImpact)
+        {
+            Instantiate(ImpactParticleSystem, hit, Quaternion.LookRotation(normal));
+        }
+
+        Destroy(Trail.gameObject, Trail.time);
+
     }
 
 
@@ -115,35 +136,20 @@ public class Weapon_V : MonoBehaviour
     {
 
         
-        Debug.DrawRay(raycast.transform.position, raycast.transform.forward * 10f, Color.red);
         if (Memegang)
         {
+
+            Debug.DrawRay(raycast.transform.position, raycast.transform.forward * 10f, Color.red);
+
+
+
             if (LeftTrigger.action.WasPressedThisFrame() || RightTrigger.action.WasPressedThisFrame())
             {
+                audio.Play();
+                ins = Instantiate(PrefabBullet, Bullet.transform.position, Quaternion.identity);
+                Destroy(ins, 2f);
                 Shoot();
-             
-               // weapon.Shoot()
-                //weapon.Shoot(weapon.LastShootTime,weapon.ShootDelay);
-
-               /* if (Time.time > weapon.FireRate)
-                {
-                    ins = Instantiate(PrefabBullet, Bullet.transform.position, Quaternion.identity);
-                    audio.Play();
-                    weapon.FireRate = Time.time + 0.5f;
-                    if (Physics.Raycast(raycast.transform.position, raycast.transform.forward, out hit))
-                    {
-                        Enemy_V enemy = hit.transform.GetComponentInParent<Enemy_V>();
-                        if (hit.transform.gameObject.layer == 8) { 
-                            enemy.Die();
-                          //  GameObject darah = Instantiate(particle, hit.transform.gameObject.transform.position, Quaternion.identity);
-                            Debug.Log(enemy.enemy.Health);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Ray did not hit anything.");
-                    }
-                }*/
+                
             }
         }
     }
