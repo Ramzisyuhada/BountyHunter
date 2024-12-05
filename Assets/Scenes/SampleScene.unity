@@ -386,6 +386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 189208465}
   - component: {fileID: 189208464}
+  - component: {fileID: 189208466}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -405,6 +406,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d9cad86645906409d945300368ccf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddBulletSpread: 1
+  BulletSpreadVariance: {x: 0.1, y: 0.1, z: 0.1}
+  ShootingSystem: {fileID: 0}
+  ImpactParticleSystem: {fileID: 0}
+  BulletTrail: {fileID: 328621789431213768, guid: bf8470a15e00a8d47898b0f44e0f6567,
+    type: 3}
+  Mask:
+    serializedVersion: 2
+    m_Bits: 0
   LeftTrigger:
     m_UseReference: 1
     m_Action:
@@ -441,6 +451,8 @@ MonoBehaviour:
     ammo: 6
     damage: 20
     FireRate: 1
+    ShootDelay: 0.5
+    LastShootTime: 0
   particle: {fileID: 0}
 --- !u!4 &189208465
 Transform:
@@ -457,6 +469,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &189208466
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189208463}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &202832656 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 109434732395451469, guid: 7811abe38615a86438f679bcf79f5b92,
