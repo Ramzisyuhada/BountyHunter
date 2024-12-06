@@ -51,7 +51,13 @@ public class Weapon_V : MonoBehaviour
     private XRDirectInteractor interactor;
     private GameObject ins;
 
+    public enum Mode
+    {
+        VR,
+        PC
+    }
 
+    public Mode ModeGame;
 
     
 
@@ -142,15 +148,24 @@ public class Weapon_V : MonoBehaviour
             Debug.DrawRay(raycast.transform.position, raycast.transform.forward * 10f, Color.red);
 
 
-
-            if (LeftTrigger.action.WasPressedThisFrame() || RightTrigger.action.WasPressedThisFrame())
+            if (ModeGame == Mode.VR)
             {
-                audio.Play();
-                ins = Instantiate(PrefabBullet, Bullet.transform.position, Quaternion.identity);
-                Destroy(ins, 2f);
-                Shoot();
-                
+                if (LeftTrigger.action.WasPressedThisFrame() || RightTrigger.action.WasPressedThisFrame())
+                {
+                    audio.Play();
+                    ins = Instantiate(PrefabBullet, Bullet.transform.position, Quaternion.identity);
+                    Destroy(ins, 2f);
+                    Shoot();
+
+                }
             }
+            else
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Shoot();
+                }
+            }   
         }
     }
 

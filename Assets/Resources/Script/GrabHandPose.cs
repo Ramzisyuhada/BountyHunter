@@ -34,7 +34,6 @@ public class GrabHandPose : MonoBehaviour
 
         if (args.interactorObject is XRDirectInteractor rayInteractor)
         {
-                Debug.Log("Memegang");
                 HandData   handData = rayInteractor.transform.GetComponentInChildren<HandData>();
                
 

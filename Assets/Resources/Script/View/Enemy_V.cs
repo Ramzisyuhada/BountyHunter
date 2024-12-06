@@ -78,7 +78,6 @@ public class Enemy_V : FSM
 
         Quaternion targetRotation = Quaternion.LookRotation(target);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * enemy.rotationSpeed);
-        Debug.Log(Vector3.Angle(transform.forward, target));
         if (Vector3.Angle(transform.forward, target) < 10)
         {
             if (Time.time > enemy.FireRate)
@@ -124,7 +123,6 @@ public class Enemy_V : FSM
         
         int randindex = Random.Range(0, PostList.Length);
         Vector3 rndPosition = Vector3.zero;
-        Debug.Log(PostList[randindex].gameObject.name);
         DestPost = PostList[randindex].transform.position;
     }
 
@@ -154,7 +152,6 @@ public class Enemy_V : FSM
     public void setRigidbodyState(bool state)
     {
         rb = GetComponentsInChildren<Rigidbody>();
-        Debug.Log(rb.Length);
         foreach (Rigidbody rb1 in rb)
         {
 

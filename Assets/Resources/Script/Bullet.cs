@@ -2,21 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+
+public class Bullet :MonoBehaviour
 {
-    private Rigidbody rb;
-    private void Start()
+    private Vector3 Lastposition = Vector3.zero;
+    public Transform Tip;
+
+    private void Update()
     {
-        rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, 5f); 
-
+        if(Physics.Linecast(Lastposition,Tip.position,out RaycastHit hit))
+        {
+            
+            if(hit.transform.gameObject.GetComponentInParent<Enemy_V>() != null) hit.transform.gameObject.GetComponentInParent<Enemy_V>().Die();
+        }
     }
-    private void FixedUpdate()
-    {
-        rb.AddForce(Vector3.right * 20f);
-    }
-
-
-
-   
 }
