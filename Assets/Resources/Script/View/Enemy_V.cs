@@ -13,7 +13,7 @@ public class Enemy_V : FSM
     private Collider[] colliders;
     private Enemy_MV model;
 
-
+    Weapon_V weapon;
     public enum FSMState
     {
         None,
@@ -28,7 +28,7 @@ public class Enemy_V : FSM
 
     protected override void Initialize()
     {
-        
+        weapon = GetComponentInChildren<Weapon_V>();
         enemy = new Enemy(enemy.Health, enemy.Damage, enemy.Armor, enemy.IsBoss, enemy.Speed, enemy.rotationSpeed,enemy.FireRate);
         fSM = new SimpleFSM();
         setColiderState(true);
@@ -51,7 +51,6 @@ public class Enemy_V : FSM
             // Setiap Sampai Destination dia akan  keadan Shoot
             
             Debug.Log("Menembak Player");
-            GetComponent<Animator>().SetFloat("Walk", 0f);
 
             isWaiting = false;
 
@@ -78,14 +77,15 @@ public class Enemy_V : FSM
 
         Quaternion targetRotation = Quaternion.LookRotation(target);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * enemy.rotationSpeed);
-        if (Vector3.Angle(transform.forward, target) < 10)
+        Debug.Log(Vector3.Angle(transform.forward, target));
+        if (Vector3.Angle(transform.forward, target) < 2)
         {
-            if (Time.time > enemy.FireRate)
-            {
+           
+                GetComponent<Animator>().SetFloat("Walk", 0f);
 
+                weapon.Shoot();
                 enemy.Shoot(transform.position, target);
 
-                enemy.FireRate = Time.time + 1.5f;
               /*  if (!isWaiting)
                 {
                     Debug.Log("Nembak");
@@ -96,13 +96,14 @@ public class Enemy_V : FSM
                 StartCoroutine(StartDestination());*/
 
 
-            }
+            
         }
        
 
         
 
     }
+
 
     bool isWaiting = false;
     IEnumerator StartDestination()

@@ -46,7 +46,7 @@ public class Weapon_V : MonoBehaviour
     [SerializeField] private GameObject particle;
 
    // [SerializeField] private GameObject effect;
-    private AudioSource audio;
+    public AudioSource audio;
     private bool Memegang;
     private XRDirectInteractor interactor;
     private GameObject ins;
@@ -56,20 +56,30 @@ public class Weapon_V : MonoBehaviour
         VR,
         PC
     }
-
+    public enum Role
+    {
+        Enemy,
+        Player
+    }
     public Mode ModeGame;
 
-    
+    public Role RoleGame;
 
     void Start()
     {
-
-        weapon = new Weapon(weapon.ammo,weapon.damage,weapon.FireRate,weapon.ShootDelay,weapon.LastShootTime);
-        interactor = LeftController.GetComponent<XRDirectInteractor>();
-        interactor.selectEntered.AddListener(OnSelectEntered);
-        interactor.selectExited.AddListener(OnExitEntered);
+        if (RoleGame == Role.Player)
+        {
+            weapon = new Weapon(weapon.ammo, weapon.damage, weapon.FireRate, weapon.ShootDelay, weapon.LastShootTime);
+            interactor = LeftController.GetComponent<XRDirectInteractor>();
+            interactor.selectEntered.AddListener(OnSelectEntered);
+            interactor.selectExited.AddListener(OnExitEntered);
+        }
+        else
+        {
+            audio.GetComponentInChildren<AudioSource>();
+        }
     }
-
+    
     private void OnExitEntered(SelectExitEventArgs e)
     {
         Memegang = false;
@@ -83,18 +93,30 @@ public class Weapon_V : MonoBehaviour
        
     }
     RaycastHit hit;
-    private void Shoot()
+    public void Shoot()
     {
 
         if (weapon.LastShootTime + weapon.ShootDelay < Time.time)
         {
-            ShootingSystem.Play();
-            Vector3 dir = weapon.GetDirection(raycast.transform.forward,AddBulletSpread,BulletSpreadVariance);
+            audio.Play();
 
+            ShootingSystem.Play();
+            Vector3 dir;
+            if (RoleGame == Role.Player)
+            {
+                 dir = weapon.GetDirection(raycast.transform.forward, AddBulletSpread, BulletSpreadVariance);
+            }
+            else
+            {
+                Transform PlayerTransform = GameObject.FindWithTag("Player").transform;
+                Vector3 target = PlayerTransform.position - raycast.transform.position;
+                
+                dir = weapon.GetDirection(raycast.transform.forward, AddBulletSpread, target);
+            }
             if (Physics.Raycast(raycast.transform.position, dir, out RaycastHit hit, float.MaxValue, Mask))
             {
                 TrailRenderer trail = Instantiate(BulletTrail, raycast.transform.position, Quaternion.identity);
-
+                trail.GetComponent<Bullet>().SetRole();
                 StartCoroutine(SpawnTrail(trail, hit.point, hit.normal, true));
 
                 weapon.LastShootTime = Time.time;
@@ -102,6 +124,7 @@ public class Weapon_V : MonoBehaviour
             else
             {
                 TrailRenderer trail = Instantiate(BulletTrail, raycast.transform.position, Quaternion.identity);
+                trail.GetComponent<Bullet>().SetRole();
 
                 StartCoroutine(SpawnTrail(trail, raycast.transform.position + dir * 100f, Vector3.zero, false));
 
@@ -141,32 +164,33 @@ public class Weapon_V : MonoBehaviour
     void Update()
     {
 
-        
-        if (Memegang)
+        if (RoleGame == Role.Player)
         {
-
-            Debug.DrawRay(raycast.transform.position, raycast.transform.forward * 10f, Color.red);
-
-
-            if (ModeGame == Mode.VR)
+            if (Memegang)
             {
-                if (LeftTrigger.action.WasPressedThisFrame() || RightTrigger.action.WasPressedThisFrame())
-                {
-                    audio.Play();
-                    ins = Instantiate(PrefabBullet, Bullet.transform.position, Quaternion.identity);
-                    Destroy(ins, 2f);
-                    Shoot();
 
+                Debug.DrawRay(raycast.transform.position, raycast.transform.forward * 10f, Color.red);
+
+
+                if (ModeGame == Mode.VR)
+                {
+                    if (LeftTrigger.action.WasPressedThisFrame() || RightTrigger.action.WasPressedThisFrame())
+                    {
+
+                        Shoot();
+
+                    }
+                }
+                else
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Shoot();
+                    }
                 }
             }
-            else
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Shoot();
-                }
-            }   
         }
+    
     }
 
   
