@@ -1645,7 +1645,7 @@ Transform:
   m_GameObject: {fileID: 118419609}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.71, y: -0.839, z: -2.71}
+  m_LocalPosition: {x: 10.71, y: -0.839, z: -6.72}
   m_LocalScale: {x: 0.44932, y: 0.44932, z: 0.44932}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3233,7 +3233,7 @@ Transform:
   m_GameObject: {fileID: 765679144}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.41, y: -0.787, z: -9}
+  m_LocalPosition: {x: 10.41, y: -0.787, z: -10.04}
   m_LocalScale: {x: 0.44932, y: 0.44932, z: 0.44932}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3321,6 +3321,7 @@ GameObject:
   - component: {fileID: 784967063}
   - component: {fileID: 784967062}
   - component: {fileID: 784967061}
+  - component: {fileID: 784967064}
   m_Layer: 0
   m_Name: XR Origin (XR Rig)
   m_TagString: Player
@@ -3368,13 +3369,39 @@ Transform:
   m_GameObject: {fileID: 784967060}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.6070625, z: -0, w: 0.794654}
-  m_LocalPosition: {x: 0, y: 0, z: -6.19}
+  m_LocalPosition: {x: 0, y: 0.139, z: -6.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 858704232}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 74.755, z: 0}
+--- !u!143 &784967064
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784967060}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &843744250
 GameObject:
   m_ObjectHideFlags: 0
@@ -4171,7 +4198,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 914302717}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20d9cad86645906409d945300368ccf4, type: 3}
   m_Name: 
@@ -4225,7 +4252,9 @@ MonoBehaviour:
     ShootDelay: 0.5
     LastShootTime: 0
   particle: {fileID: 0}
+  audio: {fileID: 0}
   ModeGame: 1
+  RoleGame: 0
 --- !u!4 &914302720
 Transform:
   m_ObjectHideFlags: 0
