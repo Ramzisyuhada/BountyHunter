@@ -86,14 +86,14 @@ public class Enemy_V : FSM
                 enemy.Shoot(transform.position, target);
 
                 enemy.FireRate = Time.time + 1.5f;
-                if (!isWaiting)
+              /*  if (!isWaiting)
                 {
                     Debug.Log("Nembak");
 
                     FindNextPoint();
 
                 }
-                StartCoroutine(StartDestination());
+                StartCoroutine(StartDestination());*/
 
 
             }
