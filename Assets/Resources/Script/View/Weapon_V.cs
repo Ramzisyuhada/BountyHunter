@@ -93,6 +93,16 @@ public class Weapon_V : MonoBehaviour
        
     }
     RaycastHit hit;
+
+    private Vector3 Direct(Vector3 pos,Vector3 BulletSpreadVariance)
+    {
+        Vector3 direction = pos;
+        BulletSpreadVariance += new Vector3 (Random.Range(-this.BulletSpreadVariance.x,this.BulletSpreadVariance.x), Random.Range(-this.BulletSpreadVariance.y, this.BulletSpreadVariance.y), Random.Range(-this.BulletSpreadVariance.z, this.BulletSpreadVariance.z));
+        direction += BulletSpreadVariance;
+
+        return direction;
+
+    }
     public void Shoot()
     {
 
@@ -110,8 +120,8 @@ public class Weapon_V : MonoBehaviour
             {
                 Transform PlayerTransform = GameObject.FindWithTag("Player").transform;
                 Vector3 target = PlayerTransform.position - raycast.transform.position;
-                
-                dir = weapon.GetDirection(raycast.transform.forward, AddBulletSpread, target);
+
+                dir = Direct(raycast.transform.forward,target).normalized;
             }
             if (Physics.Raycast(raycast.transform.position, dir, out RaycastHit hit, float.MaxValue, Mask))
             {

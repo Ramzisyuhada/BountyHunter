@@ -191,3 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Tip: {fileID: 1025981104345102495}
+  layer:
+    serializedVersion: 2
+    m_Bits: 4352
+  role: 0

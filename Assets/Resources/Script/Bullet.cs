@@ -13,17 +13,16 @@ public class Bullet :MonoBehaviour
         Player,
         Enemy
     }
-
+    public LayerMask layer;
     public Role role;
-
-
+    Camera cam;
     public void SetRole()
     {
         role = Role.Enemy;
     }
     private void Update()
     {
-        if(Physics.Linecast(Lastposition,Tip.position,out RaycastHit hit))
+        if(Physics.Linecast(Lastposition,Tip.position,out RaycastHit hit,layer))
         {
             if (role == Role.Player)
             {
@@ -31,7 +30,9 @@ public class Bullet :MonoBehaviour
             }
             else
             {
-                Debug.Log("Kena hit");
+                
+                hit.transform.GetComponent<Player_V>().shakeDuration = 0.3F;
+                hit.transform.GetComponent<Player_V>().player.TakeDamage(10);
             }
         }
     }

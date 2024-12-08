@@ -45,7 +45,7 @@ public class Enemy_V : FSM
     {
         
 
-        if (Vector3.Distance(transform.position, DestPost) < 0.5f )
+        if (Vector3.Distance(transform.position, DestPost) < 1f )
         {
 
             // Setiap Sampai Destination dia akan  keadan Shoot
@@ -77,13 +77,12 @@ public class Enemy_V : FSM
 
         Quaternion targetRotation = Quaternion.LookRotation(target);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * enemy.rotationSpeed);
-        Debug.Log(Vector3.Angle(transform.forward, target));
-        if (Vector3.Angle(transform.forward, target) < 2)
+        if (Vector3.Angle(transform.forward, target) < 20)
         {
-           
-                GetComponent<Animator>().SetFloat("Walk", 0f);
+            GetComponent<Animator>().SetFloat("Walk", 0f);
 
-                weapon.Shoot();
+
+            weapon.Shoot();
                 enemy.Shoot(transform.position, target);
 
               /*  if (!isWaiting)

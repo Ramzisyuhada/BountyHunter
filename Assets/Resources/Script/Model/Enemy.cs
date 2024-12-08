@@ -39,6 +39,8 @@ public class Enemy
 
     public void GetDamage(int damage)
     {
+
+
         if (this.Health > 0)
         {
             this.Health -= damage;
