@@ -11,13 +11,14 @@ public class HandPresentPhysic : MonoBehaviour
     public Rigidbody rb;
     public Renderer nonPhysicalHand;
     public float showNonPhysicalHandDistance = 0.05f;
-
     private Collider[] handColider;
     void Start()
     {
        rb = GetComponent<Rigidbody>();
        handColider = GetComponentsInChildren<Collider>();    
+
     }
+    
     public void EnabledHandCollider()
     {
         foreach (Collider col in handColider) 

@@ -14,11 +14,12 @@ public class Bullet :MonoBehaviour
         Enemy
     }
     public LayerMask layer;
-    public Role role;
+    public  Role role;
     Camera cam;
-    public void SetRole()
+    public void SetRole(int i)
     {
-        role = Role.Enemy;
+        
+        role = (Role)i;
     }
     private void Update()
     {
@@ -26,13 +27,17 @@ public class Bullet :MonoBehaviour
         {
             if (role == Role.Player)
             {
-                if (hit.transform.gameObject.GetComponentInParent<Enemy_V>() != null) hit.transform.gameObject.GetComponentInParent<Enemy_V>().Die();
+                Debug.Log(hit.transform.root.gameObject.name);
+                Debug.Log("Kena Hit");
+                if (hit.transform.root.GetComponentInParent<Enemy_V>() != null) hit.transform.root.GetComponentInParent<Enemy_V>().Die();
             }
             else
             {
-                
-                hit.transform.GetComponent<Player_V>().shakeDuration = 0.3F;
-                hit.transform.GetComponent<Player_V>().player.TakeDamage(10);
+                Debug.Log("test");
+                if (hit.transform.GetComponent<Player_V>() != null) {
+                    hit.transform.GetComponent<Player_V>().shakeDuration = 0.3F;
+                    hit.transform.GetComponent<Player_V>().player.TakeDamage(10);
+                }
             }
         }
     }

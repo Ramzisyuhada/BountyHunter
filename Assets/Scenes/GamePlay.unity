@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -722,12 +722,12 @@ PrefabInstance:
     - target: {fileID: 109434732395451517, guid: 7811abe38615a86438f679bcf79f5b92,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0358
+      value: 0.03580001
       objectReference: {fileID: 0}
     - target: {fileID: 109434732395451517, guid: 7811abe38615a86438f679bcf79f5b92,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0026
+      value: 0.002600193
       objectReference: {fileID: 0}
     - target: {fileID: 109434732395451517, guid: 7811abe38615a86438f679bcf79f5b92,
         type: 3}
@@ -737,12 +737,12 @@ PrefabInstance:
     - target: {fileID: 109434732395451517, guid: 7811abe38615a86438f679bcf79f5b92,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 109434732395451517, guid: 7811abe38615a86438f679bcf79f5b92,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 109434732395451517, guid: 7811abe38615a86438f679bcf79f5b92,
         type: 3}
@@ -1338,7 +1338,7 @@ MonoBehaviour:
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1949644930}
         m_TargetAssemblyTypeName: HandPresentPhysic, Assembly-CSharp
         m_MethodName: DisabledHandCollider
         m_Mode: 1
@@ -1353,7 +1353,7 @@ MonoBehaviour:
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1949644930}
         m_TargetAssemblyTypeName: HandPresentPhysic, Assembly-CSharp
         m_MethodName: EnabledHandCollider
         m_Mode: 1
@@ -1753,7 +1753,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 102616177}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1858,7 +1858,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 118419609}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4791,7 +4791,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765679144}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5477,7 +5477,7 @@ PrefabInstance:
     - target: {fileID: 5738456080911321149, guid: a35b8c32acba1334b9b31dfe8cdbc9be,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.36
+      value: 1.493
       objectReference: {fileID: 0}
     - target: {fileID: 5738456080911321149, guid: a35b8c32acba1334b9b31dfe8cdbc9be,
         type: 3}
@@ -5686,7 +5686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftHandPose: {fileID: 61070157}
-  LeftPhysic: {fileID: 0}
+  LeftPhysic: {fileID: 1949644929}
 --- !u!114 &911939748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5917,7 +5917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d9cad86645906409d945300368ccf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AddBulletSpread: 1
+  AddBulletSpread: 0
   BulletSpreadVariance: {x: 0.1, y: 0.1, z: 0.1}
   ShootingSystem: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
     type: 3}

@@ -45,7 +45,7 @@ public class Enemy_V : FSM
     {
         
 
-        if (Vector3.Distance(transform.position, DestPost) < 1f )
+        if (Vector3.Distance(transform.position, DestPost) < 5f )
         {
 
             // Setiap Sampai Destination dia akan  keadan Shoot
@@ -71,6 +71,7 @@ public class Enemy_V : FSM
     /// <summary>
     /// Ketika Player sudah melihat ke player otomatis 
     /// </summary>
+    /// 
     void FSMShoot()
     {
         Vector3 target = PlayerTransform.position - transform.position;
@@ -79,11 +80,10 @@ public class Enemy_V : FSM
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * enemy.rotationSpeed);
         if (Vector3.Angle(transform.forward, target) < 20)
         {
-            GetComponent<Animator>().SetFloat("Walk", 0f);
+          GetComponent<Animator>().SetFloat("Walk", 0f);
 
 
-            weapon.Shoot();
-                enemy.Shoot(transform.position, target);
+            
 
               /*  if (!isWaiting)
                 {
@@ -101,6 +101,14 @@ public class Enemy_V : FSM
 
         
 
+    }
+
+    void TriggerEvent()
+    {
+        Vector3 target = PlayerTransform.position - transform.position;
+
+        weapon.Shoot(1);
+        enemy.Shoot(transform.position, target);
     }
 
 
@@ -146,6 +154,8 @@ public class Enemy_V : FSM
         GetComponent<Animator>().enabled = false;
         setRigidbodyState(false);
         setColiderState(true);
+
+        Destroy(gameObject,0.5f);
     }
 
 

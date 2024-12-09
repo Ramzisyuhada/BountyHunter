@@ -202,6 +202,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MuzzleFlash01
       objectReference: {fileID: 0}
+    - target: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992675705445476, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.0031
@@ -331,17 +339,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e5ca084a6866dd243a4d369ff35e3b8e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 14.168282
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5ca084a6866dd243a4d369ff35e3b8e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.79719925
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5ca084a6866dd243a4d369ff35e3b8e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.664
+      value: -9.188007
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5ca084a6866dd243a4d369ff35e3b8e,
         type: 3}
@@ -601,6 +609,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e5ca084a6866dd243a4d369ff35e3b8e,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e5ca084a6866dd243a4d369ff35e3b8e,
+        type: 3}
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
@@ -704,6 +717,16 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 6af2ec534eb85ac4c9322c56f2d5c73a, type: 2}
+    - target: {fileID: 5866666021909216657, guid: e5ca084a6866dd243a4d369ff35e3b8e,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'root'\n\tTransform 'c_index2.l'\n\tTransform
+        'c_thumb1.l'\n\tTransform 'root'\n\tTransform 'spine_02.x'\n\tTransform 'spine_01.x'\n\tTransform
+        'thigh_stretch.r'\n\tTransform 'hand.r'\n\tTransform 'c_ring1.l'\n\tTransform
+        'c_thumb2.r'\n\tand more ...\n\tFrom animation clip 'mixamo.com 1'"
+      objectReference: {fileID: 0}
     - target: {fileID: 5900336400078107880, guid: e5ca084a6866dd243a4d369ff35e3b8e,
         type: 3}
       propertyPath: m_Layer
@@ -2356,7 +2379,7 @@ MonoBehaviour:
     ammo: 6
     damage: 20
     FireRate: 1
-    ShootDelay: 0.5
+    ShootDelay: 1
     LastShootTime: 0
   particle: {fileID: 0}
   audio: {fileID: 7891007968524568022}

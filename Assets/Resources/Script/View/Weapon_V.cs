@@ -103,7 +103,7 @@ public class Weapon_V : MonoBehaviour
         return direction;
 
     }
-    public void Shoot()
+    public void Shoot(int i)
     {
 
         if (weapon.LastShootTime + weapon.ShootDelay < Time.time)
@@ -126,7 +126,8 @@ public class Weapon_V : MonoBehaviour
             if (Physics.Raycast(raycast.transform.position, dir, out RaycastHit hit, float.MaxValue, Mask))
             {
                 TrailRenderer trail = Instantiate(BulletTrail, raycast.transform.position, Quaternion.identity);
-                trail.GetComponent<Bullet>().SetRole();
+                trail.GetComponent<Bullet>().SetRole(i);
+
                 StartCoroutine(SpawnTrail(trail, hit.point, hit.normal, true));
 
                 weapon.LastShootTime = Time.time;
@@ -134,7 +135,7 @@ public class Weapon_V : MonoBehaviour
             else
             {
                 TrailRenderer trail = Instantiate(BulletTrail, raycast.transform.position, Quaternion.identity);
-                trail.GetComponent<Bullet>().SetRole();
+                trail.GetComponent<Bullet>().SetRole(i);
 
                 StartCoroutine(SpawnTrail(trail, raycast.transform.position + dir * 100f, Vector3.zero, false));
 
@@ -187,7 +188,7 @@ public class Weapon_V : MonoBehaviour
                     if (LeftTrigger.action.WasPressedThisFrame() || RightTrigger.action.WasPressedThisFrame())
                     {
 
-                        Shoot();
+                        Shoot(0);
 
                     }
                 }
@@ -195,7 +196,7 @@ public class Weapon_V : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        Shoot();
+                        Shoot(0);
                     }
                 }
             }

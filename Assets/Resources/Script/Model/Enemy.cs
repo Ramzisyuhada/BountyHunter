@@ -50,7 +50,6 @@ public class Enemy
     }
 
     public void Shoot(Vector3 positionEnemy,Vector3 target) {
-        Debug.Log(Vector3.Angle(positionEnemy, target));
 
       
 
