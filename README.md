@@ -7,6 +7,8 @@ Players can use VR controllers to aim, shoot, and even perform special actions l
 ## Assets
 https://assetstore.unity.com/packages/3d/environments/free-low-poly-desert-pack-106709
 https://assetstore.unity.com/packages/3d/environments/landscapes/desert-kits-64-sample-86482
+https://assetstore.unity.com/packages/3d/props/guns/low-poly-fps-weapons-lite-245929
+
 ## Features
 - **Immersive VR Controls:** Use VR controllers for shooting, aiming, reloading, and interacting with objects in the environment.
 - **Weapon System:** Switch between multiple weapons, each with unique handling and shooting styles.
