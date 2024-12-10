@@ -28,7 +28,12 @@ public class Enemy_V : FSM
 
     protected override void Initialize()
     {
+        Animator anim = GetComponent<Animator>();
+
+        // AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
         weapon = GetComponentInChildren<Weapon_V>();
+        //clips[1].speed = 1;
+        anim.SetFloat("SpeeShoot", 3);
         enemy = new Enemy(enemy.Health, enemy.Damage, enemy.Armor, enemy.IsBoss, enemy.Speed, enemy.rotationSpeed,enemy.FireRate);
         fSM = new SimpleFSM();
         setColiderState(true);

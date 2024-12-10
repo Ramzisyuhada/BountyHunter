@@ -2379,7 +2379,7 @@ MonoBehaviour:
     ammo: 6
     damage: 20
     FireRate: 1
-    ShootDelay: 1
+    ShootDelay: 2
     LastShootTime: 0
   particle: {fileID: 0}
   audio: {fileID: 7891007968524568022}

@@ -42,7 +42,7 @@ public class Weapon_V : MonoBehaviour
     [SerializeField] private GameObject Bullet;
 
     [SerializeField] private GameObject PrefabBullet;
-    [SerializeField] private Weapon weapon;
+    [SerializeField] public Weapon weapon;
     [SerializeField] private GameObject particle;
 
    // [SerializeField] private GameObject effect;
@@ -106,8 +106,8 @@ public class Weapon_V : MonoBehaviour
     public void Shoot(int i)
     {
 
-        if (weapon.LastShootTime + weapon.ShootDelay < Time.time)
-        {
+       /* if (weapon.LastShootTime + weapon.ShootDelay < Time.time)
+        {*/
             audio.Play();
 
             ShootingSystem.Play();
@@ -143,7 +143,7 @@ public class Weapon_V : MonoBehaviour
             }
 
 
-        }
+        /*}*/
     }
 
     private IEnumerator SpawnTrail(TrailRenderer Trail, Vector3 hit,Vector3 normal, bool MadeImpact)
