@@ -25,7 +25,10 @@ public class Enemy_V : FSM
 
     public FSMState State;
 
-
+    public void Diffculty(float firerate)
+    {
+        enemy.FireRate = firerate;
+    }
     protected override void Initialize()
     {
         Animator anim = GetComponent<Animator>();
