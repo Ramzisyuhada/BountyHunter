@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player_V : MonoBehaviour
 {
@@ -15,6 +16,11 @@ public class Player_V : MonoBehaviour
     public float shakeFrequency = 0.1f;
     public bool HitDamage;
 
+    public bool addscore;
+    public bool divscore;
+    private int valuescore;
+    [Header("GUI")]
+    [SerializeField] Text score;
     void Start()
     {
         player = new Player(player.health);
@@ -39,5 +45,21 @@ public class Player_V : MonoBehaviour
             shakeDuration = 0f;
             camera.transform.localPosition = originalPosition;
         }
+
+        if (addscore)
+        {
+            valuescore += 20;
+            score.text = string.Format("Score:{0}",valuescore  );
+            addscore = false;
+            return;
+        }
+        if (divscore) { 
+            valuescore -= 20;
+            score.text = string.Format("Score:{0}", valuescore);
+            divscore = false;
+            return;
+        }
+        Debug.Log(valuescore);
+        
     }
 }

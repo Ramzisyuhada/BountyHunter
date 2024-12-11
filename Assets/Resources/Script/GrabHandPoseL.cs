@@ -4,11 +4,23 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public class GrabHandPose : MonoBehaviour
 {
 
     public HandData leftHandPose;
     public GameObject LeftPhysic;
+
+
+
+    public HandData rightHandPose;
+    public GameObject rightPhysic;
+
+
+
     private Vector3 startingHandPosition;
     private Vector3 finalHandPosition;
     private Quaternion startingHandRotation;
@@ -26,22 +38,62 @@ public class GrabHandPose : MonoBehaviour
         grabInteractable.selectEntered.AddListener(SetupPose);
         grabInteractable.selectExited.AddListener(UnsetPoses);
         leftHandPose.gameObject.SetActive(false);
+        rightHandPose.gameObject.SetActive(false);
     }
 
+
+#if UNITY_EDITOR
+    [MenuItem("Tools/Mirror Selected Right Grab Pose")]
+    public static void MirrorRightPose()
+    {
+        Debug.Log("Mirror Right Pose");
+        GrabHandPose handpose = Selection.activeGameObject.GetComponent<GrabHandPose>();
+        handpose.MirrorPose(handpose.leftHandPose, handpose.rightHandPose);
+    }
+#endif
+    public void MirrorPose(HandData poseToMirror , HandData poseUsedToMirror)
+    {
+        Vector3 mirrorPosition = poseUsedToMirror.root.localPosition;
+        mirrorPosition.x *= -1;
+
+        Quaternion mirrorQuaternion = poseUsedToMirror.root.localRotation;
+        mirrorQuaternion.y *= -1;
+        mirrorQuaternion.z *= -1;
+
+        poseToMirror.root.localPosition = mirrorPosition;
+        poseToMirror.root.localRotation = mirrorQuaternion;
+
+        for (int i = 0; i < poseUsedToMirror.FingerOne.Length; i++)
+        {
+            poseToMirror.FingerOne[i].localRotation = poseUsedToMirror.FingerOne[i].localRotation;
+        }
+    }
     public void SetupPose(BaseInteractionEventArgs args)
     {
-        //HandData pose = leftHandPose.GetComponent<HandPresentPhysic>().target.transform.GetComponentInChildren<HandData>();
 
         if (args.interactorObject is XRDirectInteractor rayInteractor)
         {
-                HandData   handData = rayInteractor.transform.GetComponentInChildren<HandData>();
-               
+            Debug.Log("Hello world");
+
+            HandData handData = rayInteractor.transform.GetComponentInChildren<HandData>();
+            if (handData.HandType == HandData.HandModelType.Left)
+            {
 
                 LeftPhysic.transform.GetComponentInChildren<HandData>().animator.enabled = false;
-
-
-            SetHandDataValue(LeftPhysic.transform.GetComponentInChildren<HandData>(), leftHandPose);
+                SetHandDataValue(LeftPhysic.transform.GetComponentInChildren<HandData>(), leftHandPose);
                 SetHandData(LeftPhysic.transform.GetComponentInChildren<HandData>(), finalHandPosition, finalHandRotation, finalFingerRotation);
+
+            }
+            else
+            {
+                
+                rightPhysic.transform.GetComponentInChildren<HandData>().animator.enabled=false;
+                SetHandDataValue(rightPhysic.transform.GetComponentInChildren<HandData>(), rightHandPose);
+                SetHandData(rightPhysic.transform.GetComponentInChildren<HandData>(), finalHandPosition, finalHandRotation, finalFingerRotation);
+
+            }
+
+            //SetHandData(LeftPhysic.transform.GetComponentInChildren<HandData>(), finalHandPosition, finalHandRotation, finalFingerRotation);
         }
     }
 
@@ -51,8 +103,7 @@ public class GrabHandPose : MonoBehaviour
         if (args.interactorObject is XRDirectInteractor rayInteractor)
         {
             // LeftPhysic.SetActive(true);
-
-            LeftPhysic.transform.GetComponentInChildren<HandData>().animator.enabled = false;
+            LeftPhysic.transform.GetComponentInChildren<HandData>().animator.enabled = true;
             SetHandData(LeftPhysic.transform.GetComponentInChildren<HandData>(), startingHandPosition, startingHandRotation, startingFingerRotation);
 
         }

@@ -127,7 +127,7 @@ public class Weapon_V : MonoBehaviour
             {
                 TrailRenderer trail = Instantiate(BulletTrail, raycast.transform.position, Quaternion.identity);
                 trail.GetComponent<Bullet>().SetRole(i);
-
+                
                 StartCoroutine(SpawnTrail(trail, hit.point, hit.normal, true));
 
                 weapon.LastShootTime = Time.time;

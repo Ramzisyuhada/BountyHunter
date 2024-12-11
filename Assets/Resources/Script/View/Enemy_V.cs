@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using static SimpleFSM;
 using static UnityEngine.GraphicsBuffer;
 
@@ -12,7 +13,8 @@ public class Enemy_V : FSM
     private Rigidbody[] rb;
     private Collider[] colliders;
     private Enemy_MV model;
-
+   
+    public Player_V Pv;
     Weapon_V weapon;
     public enum FSMState
     {
@@ -22,7 +24,7 @@ public class Enemy_V : FSM
         Die
     }
 
-
+    NavMeshAgent navMeshAgent;
     public FSMState State;
 
     public void Diffculty(float firerate)
@@ -31,21 +33,25 @@ public class Enemy_V : FSM
     }
     protected override void Initialize()
     {
-        Animator anim = GetComponent<Animator>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
 
+        //  GetComponent<NavMeshAgent>().;
+        Animator anim = GetComponent<Animator>();
+        
         // AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
         weapon = GetComponentInChildren<Weapon_V>();
         //clips[1].speed = 1;
-        anim.SetFloat("SpeeShoot", 3);
+        anim.SetFloat("SpeeShoot", enemy.FireRate);
         enemy = new Enemy(enemy.Health, enemy.Damage, enemy.Armor, enemy.IsBoss, enemy.Speed, enemy.rotationSpeed,enemy.FireRate);
         fSM = new SimpleFSM();
         setColiderState(true);
         setRigidbodyState(true);
-
         State = FSMState.Patrol;
         PostList = GameObject.FindGameObjectsWithTag("WayPoint");
         FindNextPoint();
+        navMeshAgent.SetDestination(DestPost);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Pv = player.GetComponent<Player_V>();   
         PlayerTransform = player.transform;
     }
 
@@ -55,6 +61,7 @@ public class Enemy_V : FSM
 
         if (Vector3.Distance(transform.position, DestPost) < 5f )
         {
+            navMeshAgent.isStopped = true;
 
             // Setiap Sampai Destination dia akan  keadan Shoot
             
@@ -67,8 +74,8 @@ public class Enemy_V : FSM
 
 
         }
-        Quaternion targetRoatation = Quaternion.LookRotation(DestPost - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRoatation, Time.deltaTime * enemy.rotationSpeed);
+       /* Quaternion targetRoatation = Quaternion.LookRotation(DestPost - transform.position);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRoatation, Time.deltaTime * enemy.rotationSpeed);*/
         GetComponent<Animator>().SetFloat("Walk", enemy.Speed);
 
         /*transform.Translate(Vector3.forward * Time.deltaTime * enemy.Speed);*/
@@ -88,23 +95,23 @@ public class Enemy_V : FSM
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * enemy.rotationSpeed);
         if (Vector3.Angle(transform.forward, target) < 20)
         {
-          GetComponent<Animator>().SetFloat("Walk", 0f);
+            GetComponent<Animator>().SetFloat("Walk", 0f);
 
 
-            
-
-              /*  if (!isWaiting)
-                {
-                    Debug.Log("Nembak");
-
-                    FindNextPoint();
-
-                }
-                StartCoroutine(StartDestination());*/
 
 
-            
+            /*  if (!isWaiting)
+              {
+                  Debug.Log("Nembak");
+
+                  FindNextPoint();
+
+              }
+              StartCoroutine(StartDestination());*/
+
         }
+            
+        
        
 
         

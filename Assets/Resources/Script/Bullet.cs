@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.MPE;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class Bullet :MonoBehaviour
 {
     private Vector3 Lastposition = Vector3.zero;
     public Transform Tip;
+
+    
     public enum Role
     {
         Player,
@@ -29,12 +32,15 @@ public class Bullet :MonoBehaviour
             {
                 Debug.Log(hit.transform.root.gameObject.name);
                 Debug.Log("Kena Hit");
+                hit.transform.root.GetComponentInParent<Enemy_V>().Pv.addscore = true;
                 if (hit.transform.root.GetComponentInParent<Enemy_V>() != null) hit.transform.root.GetComponentInParent<Enemy_V>().Die();
+
             }
             else
             {
                 Debug.Log("test");
                 if (hit.transform.GetComponent<Player_V>() != null) {
+                    hit.transform.GetComponent<Player_V>().divscore = true;
                     hit.transform.GetComponent<Player_V>().shakeDuration = 0.3F;
                     hit.transform.GetComponent<Player_V>().player.TakeDamage(10);
                 }

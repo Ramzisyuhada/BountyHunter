@@ -33,8 +33,13 @@ public class GenerateEnemy : MonoBehaviour
             int minutes = Mathf.FloorToInt(currrent / 60); 
             int seconds = Mathf.FloorToInt(currrent % 60); 
 
-            Waktu.text = string.Format("{0:00}:{1:00}", minutes, seconds); 
+            Waktu.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
+        }
+        else
+        {
+            Destroy(GameObject.FindWithTag("Enemy"));
+            mulai = false;
         }
         if (GameObject.FindGameObjectsWithTag("Enemy").Length < 1 && mulai)
         {
