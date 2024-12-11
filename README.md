@@ -1,4 +1,5 @@
 # Project Name: BountyHunter
+![Uploading image.png…]()
 
 ## Description
 This is a Virtual Reality (VR) shooting game developed in Unity, where players use VR controllers to aim, shoot, and interact with enemies in an immersive 3D environment. The game leverages hand tracking and VR interactions to deliver a fun and interactive combat experience in a virtual world.
