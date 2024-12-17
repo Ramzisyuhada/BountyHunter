@@ -82,7 +82,7 @@ public class GrabHandPose : MonoBehaviour
                 LeftPhysic.transform.GetComponentInChildren<HandData>().animator.enabled = false;
                 SetHandDataValue(LeftPhysic.transform.GetComponentInChildren<HandData>(), leftHandPose);
                 SetHandData(LeftPhysic.transform.GetComponentInChildren<HandData>(), finalHandPosition, finalHandRotation, finalFingerRotation);
-
+             
             }
             else
             {
@@ -103,9 +103,18 @@ public class GrabHandPose : MonoBehaviour
         if (args.interactorObject is XRDirectInteractor rayInteractor)
         {
             // LeftPhysic.SetActive(true);
-            LeftPhysic.transform.GetComponentInChildren<HandData>().animator.enabled = true;
-            SetHandData(LeftPhysic.transform.GetComponentInChildren<HandData>(), startingHandPosition, startingHandRotation, startingFingerRotation);
+            HandData handData = rayInteractor.transform.GetComponentInChildren<HandData>();
+            if (handData.HandType == HandData.HandModelType.Left)
+            {
+                LeftPhysic.transform.GetComponentInChildren<HandData>().animator.enabled = true;
+                SetHandData(LeftPhysic.transform.GetComponentInChildren<HandData>(), startingHandPosition, startingHandRotation, startingFingerRotation);
+            }
+            else
+            {
+                LeftPhysic.transform.GetComponentInChildren<HandData>().animator.enabled = true;
+                SetHandData(rightPhysic.transform.GetComponentInChildren<HandData>(), startingHandPosition, startingHandRotation, startingFingerRotation);
 
+            }
         }
     }
 
